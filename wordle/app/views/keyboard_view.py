@@ -94,10 +94,14 @@ class KeyboardView(tk.Frame):
         attempts = self.controller.state.attempts
         used = {}
 
+        # 우선순위: 높을수록 더 좋은 정보
         priority = {
-            LetterState.CORRECT: 3,
-            LetterState.PRESENT: 2,
             LetterState.ABSENT: 1,
+            LetterState.ONE_WRONG_POS: 2,
+            LetterState.TWO_WRONG_POS: 3,
+            LetterState.ONE_CORRECT_POS: 4,
+            LetterState.TWO_ONE_CORRECT: 5,
+            LetterState.TWO_CORRECT_POS: 6,
         }
 
         for guess, result in attempts:
@@ -110,9 +114,16 @@ class KeyboardView(tk.Frame):
             btn = self.buttons.get(ch)
             if not btn:
                 continue
-            if state == LetterState.CORRECT:
-                btn.config(bg="green", fg="white")
-            elif state == LetterState.PRESENT:
-                btn.config(bg="orange", fg="black")
-            else:
-                btn.config(bg="gray", fg="white")
+
+            if state == LetterState.ABSENT:
+                btn.config(bg=COLOR_ABSENT, fg="white")
+            elif state == LetterState.ONE_WRONG_POS:
+                btn.config(bg=COLOR_ONE_WRONG_POS, fg="black")
+            elif state == LetterState.ONE_CORRECT_POS:
+                btn.config(bg=COLOR_ONE_CORRECT_POS, fg="white")
+            elif state == LetterState.TWO_WRONG_POS:
+                btn.config(bg=COLOR_TWO_WRONG_POS, fg="white")
+            elif state == LetterState.TWO_ONE_CORRECT:
+                btn.config(bg=COLOR_TWO_ONE_CORRECT, fg="black")
+            elif state == LetterState.TWO_CORRECT_POS:
+                btn.config(bg=COLOR_TWO_CORRECT_POS, fg="white")

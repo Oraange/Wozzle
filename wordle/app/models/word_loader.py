@@ -23,5 +23,13 @@ class WordLoader:
     def get_random_word(self) -> str:
         return random.choice(self.words)
 
+    def get_random_words(self, count: int = 2) -> list[str]:
+        """중복 없이 랜덤으로 여러 단어를 선택합니다."""
+        if count > len(self.words):
+            raise ValueError(
+                f"Not enough words. Requested: {count}, Available: {len(self.words)}"
+            )
+        return random.sample(self.words, count)
+
     def is_valid_word(self, word: str) -> bool:
         return word.upper() in self.words

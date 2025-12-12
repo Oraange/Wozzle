@@ -80,9 +80,16 @@ class BoardView(tk.Frame):
                 lbl = self.labels[r][c]
                 lbl.config(text=ch.upper())
 
-                if result[c] == LetterState.CORRECT:
-                    lbl.config(bg=COLOR_CORRECT, fg="white")
-                elif result[c] == LetterState.PRESENT:
-                    lbl.config(bg=COLOR_PRESENT, fg="white")
-                else:
+                state = result[c]
+                if state == LetterState.ABSENT:
                     lbl.config(bg=COLOR_ABSENT, fg="white")
+                elif state == LetterState.ONE_WRONG_POS:
+                    lbl.config(bg=COLOR_ONE_WRONG_POS, fg="black")
+                elif state == LetterState.ONE_CORRECT_POS:
+                    lbl.config(bg=COLOR_ONE_CORRECT_POS, fg="white")
+                elif state == LetterState.TWO_WRONG_POS:
+                    lbl.config(bg=COLOR_TWO_WRONG_POS, fg="white")
+                elif state == LetterState.TWO_ONE_CORRECT:
+                    lbl.config(bg=COLOR_TWO_ONE_CORRECT, fg="black")
+                elif state == LetterState.TWO_CORRECT_POS:
+                    lbl.config(bg=COLOR_TWO_CORRECT_POS, fg="white")

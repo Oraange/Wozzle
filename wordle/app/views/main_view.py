@@ -86,12 +86,14 @@ class MainView:
     def reset_window(self):
         self.current_guess = ""
 
+        from app.core.settings import COLOR_EMPTY, KEY_BG, KEY_FG
+
         for r in range(len(self.board.labels)):
             for c in range(len(self.board.labels[r])):
-                self.board.labels[r][c].config(text="", bg="white", fg="black")
+                self.board.labels[r][c].config(text="", bg=COLOR_EMPTY, fg="black")
 
         for _, btn in self.keyboard.buttons.items():
-            btn.config(bg="SystemButtonFace", fg="black")
+            btn.config(bg=KEY_BG, fg=KEY_FG)
 
     # deprecated
     def flash_invalid_word(self):
