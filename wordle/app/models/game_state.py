@@ -11,9 +11,22 @@ class LetterState(Enum):
 class GameState:
     def __init__(self, answer: str):
         self.answer = answer.upper()  # The correct word to guess
+        self.current_guess = []
+        self.attempt_index = 0
         self.attempts = []  # List of attempts made
         self.game_over = False
         self.win = False
+
+    def add_letter(self, letter: str):
+        if len(self.current_guess) < WORD_LENGTH:
+            self.current_guess.append(letter.upper())
+
+    def remove_letter(self):
+        if self.current_guess:
+            self.current_guess.pop()
+
+    def is_complete(self):
+        return len(self.current_guess) == WORD_LENGTH
 
     def submit_guess(self, guess: str) -> list[str] | None:
         if self.game_over:
@@ -22,12 +35,15 @@ class GameState:
         guess = guess.upper()
         result = self._evaluate_guess(guess)
         self.attempts.append((guess, result))
+        self.attempt_index += 1
 
         if guess == self.answer:
             self.win = True
             self.game_over = True
         elif len(self.attempts) >= MAX_ATTEMPTS:
             self.game_over = True
+
+        self.current_guess = []
 
         return result
 
