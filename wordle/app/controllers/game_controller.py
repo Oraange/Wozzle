@@ -26,6 +26,7 @@ class GameController:
     def _start_new_game(self):
         answer = self.loader.get_random_word()
         self.state = GameState(answer)
+        print("Debug - New game started. Answer is:", answer)
 
     def set_view(self, view):
         self.view = view
