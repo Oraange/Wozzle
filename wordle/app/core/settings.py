@@ -15,7 +15,7 @@ NUM_WORDS = 2  # Hardle uses 2 words
 
 # Window settings
 WINDOW_TITLE = "Hardle"
-WINDOW_SIZE = "520x780"
+WINDOW_SIZE = "780x800"  # Increased width for instruction box
 
 # Keyboard ui color
 KEY_BG = "#d3d6da"

@@ -14,13 +14,59 @@ class MainView:
         self.root.geometry(WINDOW_SIZE)
         self.root.bind("<Key>", self._on_key_event)
 
-        self.board = BoardView(self.root, controller)
-        self.board.pack(pady=20)
+        # Content frame to hold board and instruction side by side
+        content_frame = tk.Frame(self.root)
+        content_frame.pack(pady=20, padx=10, fill="x")
+
+        # Left side: Board
+        left_frame = tk.Frame(content_frame)
+        left_frame.pack(side="left", anchor="n")
+
+        self.board = BoardView(left_frame, controller)
+        self.board.pack()
+
+        # Right side: Instruction box
+        right_frame = tk.Frame(
+            content_frame, bg="#f0f0f0", relief="ridge", borderwidth=2
+        )
+        right_frame.pack(side="left", padx=(15, 0), anchor="n", fill="both")
+
+        instr_title = tk.Label(
+            right_frame,
+            text="🎯 How to Play Hardle",
+            font=("Helvetica", 13, "bold"),
+            bg="#f0f0f0",
+            fg="#333333",
+        )
+        instr_title.pack(anchor="w", padx=10, pady=(10, 5))
+
+        instr_text = tk.Label(
+            right_frame,
+            text=(
+                "Guess TWO 5-letter words!\n\n"
+                "Colors mean:\n"
+                "⬜ Gray: not in either word\n"
+                "🟨 Yellow: in 1 word, wrong pos\n"
+                "🟩 Y-Green: in 1 word, correct pos\n"
+                "🟧 Orange: in 2 words, wrong pos\n"
+                "🔵 Sky Blue: in 2 words, 1 correct\n"
+                "💙 Blue: in 2 words, both correct\n\n"
+                "You have 10 attempts.\n"
+                "Win by guessing both words!"
+            ),
+            justify="left",
+            wraplength=220,
+            bg="#f0f0f0",
+            fg="#333333",
+            font=("Helvetica", 9),
+        )
+        instr_text.pack(anchor="w", padx=10, pady=(0, 10))
 
         self.current_guess = ""
 
+        # Keyboard below
         self.keyboard = KeyboardView(self.root, controller)
-        self.keyboard.pack()
+        self.keyboard.pack(pady=10)
 
     def run(self):
         self.controller._start_new_game()

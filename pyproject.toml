@@ -8,5 +8,6 @@ dependencies = []
 
 [dependency-groups]
 dev = [
+    "ipython>=9.8.0",
     "pyinstaller>=6.17.0",
 ]
