@@ -3,6 +3,8 @@ from app.core.settings import WINDOW_TITLE, WINDOW_SIZE
 from app.views.board_view import BoardView
 from app.views.keyboard_view import KeyboardView
 
+win_count = 0
+
 
 class MainView:
     def __init__(self, controller):
@@ -20,7 +22,16 @@ class MainView:
         self.current_guess = ""
 
         self.keyboard = KeyboardView(self.root, controller)
-        self.keyboard.pack()
+        self.keyboard.pack(pady=10)
+
+        self.win_count = 0
+        self.win_count_label = tk.Label(
+            self.root,
+            text=f"Win Streak: {self.win_count}",
+            font=("Helvetica", 12, "bold"),
+            fg="#333333",
+        )
+        self.win_count_label.pack(anchor="w", padx=10, pady=(10, 5))
 
     def run(self):
         self.controller._start_new_game()
@@ -71,6 +82,16 @@ class MainView:
     def update_keyboard(self):
         self.keyboard.update_colors()
 
+    def increment_win_count(self):
+        """연속 승리 카운트를 1 증가시키고 UI를 업데이트합니다."""
+        self.win_count += 1
+        self.win_count_label.config(text=f"Win Streak: {self.win_count}")
+
+    def reset_win_count(self):
+        """연속 승리 카운트를 0으로 초기화하고 UI를 업데이트합니다."""
+        self.win_count = 0
+        self.win_count_label.config(text=f"Win Streak: {self.win_count}")
+
     def show_message(self, message: str):
         popup = tk.Toplevel(self.root)
         popup.title("Result")
@@ -92,19 +113,6 @@ class MainView:
 
         for _, btn in self.keyboard.buttons.items():
             btn.config(bg="SystemButtonFace", fg="black")
-
-    # deprecated
-    def flash_invalid_word(self):
-        overlay = tk.Frame(
-            self.root,
-            bg="#FFFFFF",
-            width=self.root.winfo_width(),
-            height=self.root.winfo_height(),
-        )
-        overlay.place(x=0, y=0)
-
-        overlay.configure(bg="#F3A8A8")
-        self.root.after(100, overlay.destroy)
 
     def show_not_in_list_message(self):
         if hasattr(self, "invalid_label") and self.invalid_label.winfo_exists():

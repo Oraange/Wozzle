@@ -47,8 +47,10 @@ class GameController:
 
             if self.state.game_over:
                 if self.state.win:
+                    self.view.increment_win_count()
                     self.view.show_message("Congratulations! You've won!")
                 else:
+                    self.view.reset_win_count()
                     self.view.show_message(
                         f"Game Over! The word was {self.state.answer}"
                     )
