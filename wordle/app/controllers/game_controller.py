@@ -47,8 +47,21 @@ class GameController:
 
             if self.state.game_over:
                 if self.state.win:
+                    old_high_score = self.view.high_score
                     self.view.increment_win_count()
-                    self.view.show_message("Congratulations! You've won!")
+
+                    # 새로운 기록 달성 메시지
+                    if self.view.win_count > old_high_score:
+                        message = (
+                            f"🎉 Congratulations! You've won!\n"
+                            f"🏆 NEW HIGH SCORE: {self.view.win_count}!"
+                        )
+                    else:
+                        message = (
+                            f"Congratulations! You've won!\n"
+                            f"Win Streak: {self.view.win_count}"
+                        )
+                    self.view.show_message(message)
                 else:
                     self.view.reset_win_count()
                     self.view.show_message(
